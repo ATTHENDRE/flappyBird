@@ -20,5 +20,10 @@ namespace flappyBird
         {
             InitializeComponent();
         }
-    }
+
+		private void Canvas_KeyDown(object sender, KeyEventArgs e)
+		{
+
+		}
+	}
 }

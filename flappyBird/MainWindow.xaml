@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:flappyBird"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Flappy Bird" Height="490" Width="525">
+	<Canvas Focusable="True" KeyDown="LentVan" KeyUp="FentVan" Background="LightBlue">
 
-    </Grid>
+		<Image Height="145" Width="200" Source="/Image/clouds.png" Canvas.Left="27" Canvas.Top="152" Tag="cloud" />
+		<Image Height="145" Width="200" Source="/Image/clouds2.png" Canvas.Left="275" Canvas.Top="162" Tag="cloud" />
+
+		<Image Height="390" Width="66" Source="/Image/pipeBottom.png" Tag="oszlop1" Canvas.Left="75" Canvas.Top="353" HorizontalAlignment="Left" VerticalAlignment="Center" />
+		<Image Height="390" Width="66" Source="/Image/pipeTop.png" Tag="oszlop1" Canvas.Left="73" Canvas.Top="-176" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+		<Image Height="390" Width="66" Source="/Image/pipeBottom.png" Tag="oszlop2" Canvas.Left="401" Canvas.Top="339" />
+		<Image Height="390" Width="66" Source="/Image/pipeTop.png" Tag="oszlop2" Canvas.Left="402" Canvas.Top="-209" />
+
+		<Image Height="390" Width="66" Source="/Image/pipeBottom.png" Tag="oszlop3" Canvas.Left="238" Canvas.Top="269" HorizontalAlignment="Left" VerticalAlignment="Top" />
+		<Image Height="390" Width="66" Source="/Image/pipeTop.png" Tag="oszlop3" Canvas.Left="236" Canvas.Top="-260" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+		<Image x:Name="bird" Height="36" Width="50" Source="/Image/flappyBird.png" Canvas.Left="2" Canvas.Top="270" />
+
+		<Label x:Name="scoreLabel" Content="Score: 0" FontSize="22" FontWeight="Bold" Canvas.Left="10" Canvas.Top="10" />
+	</Canvas>
 </Window>
