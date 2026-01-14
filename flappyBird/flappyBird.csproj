@@ -8,4 +8,30 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Image\clouds.png" />
+    <None Remove="Image\clouds2.png" />
+    <None Remove="Image\flappyBird.png" />
+    <None Remove="Image\pipeBottom.png" />
+    <None Remove="Image\pipeTop.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Image\clouds.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\clouds2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\flappyBird.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\pipeBottom.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\pipeTop.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>
