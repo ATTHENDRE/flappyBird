@@ -24,10 +24,10 @@ namespace flappyBird
 			timer.Interval = TimeSpan.FromMilliseconds(20);
 			timer.Tick += GameLoop;
 
-			ShowMenu(); // induláskor menü
+			ShowMenu(); 
 		}
 
-		// ================= SCENE KEZELÉS =================
+		
 
 		void ShowMenu()
 		{
@@ -57,7 +57,7 @@ namespace flappyBird
 			timer.Stop();
 		}
 
-		// ================= JÁTÉK LOGIKA =================
+		
 
 		private void GameLoop(object sender, EventArgs e)
 		{
@@ -124,7 +124,7 @@ namespace flappyBird
 			}
 		}
 
-		// ================= BILLENTYŰK =================
+		
 
 		private void KeyIsDown(object sender, KeyEventArgs e)
 		{
@@ -136,7 +136,7 @@ namespace flappyBird
 
 			if (e.Key == Key.Enter && gameOver)
 			{
-				ShowMenu(); // játék vége után vissza menübe
+				ShowMenu(); 
 			}
 		}
 
@@ -146,7 +146,7 @@ namespace flappyBird
 			bird.RenderTransform = new RotateTransform(5, bird.Width / 2, bird.Height / 2);
 		}
 
-		// ================= JÁTÉK VEZÉRLÉS =================
+		
 
 		private void StartGame()
 		{
@@ -179,7 +179,7 @@ namespace flappyBird
 			scoreLabel.Content = "Score: " + score + "  Játék vége! (ENTER)";
 		}
 
-		// ================= MENÜ GOMBOK =================
+		
 
 		private void StartGame_Click(object sender, RoutedEventArgs e)
 		{

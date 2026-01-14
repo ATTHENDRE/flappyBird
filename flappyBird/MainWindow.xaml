@@ -31,6 +31,7 @@
                         Click="Exit_Click"/>
 			</StackPanel>
 		</Grid>
+		  
 		<Grid>
 			<Canvas Name="Canv"
 				Background="LightSkyBlue"
