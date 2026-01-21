@@ -1,14 +1,18 @@
 ﻿<Window x:Class="flappyBird.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         Title="Flappy Bird"
         Height="490"
         Width="525"
-		ResizeMode="NoResize">
+        ResizeMode="NoResize">
 
 	<Grid>
-		<Grid x:Name="MenuScene">
+
+		
+		<Grid x:Name="MenuScene" Visibility="Visible">
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
 				<TextBlock Text="FLAPPY BIRD"
                            FontSize="36"
                            FontWeight="Bold"
@@ -20,46 +24,109 @@
                         Margin="5"
                         Click="StartGame_Click"/>
 
-				<Button Content="Credits"
+				<Button x:Name="DifficultyButton"
+                        Content="Difficulty: Medium"
                         Width="200"
                         Margin="5"
-                        Click="Credits_Click"/>
+                        Click="Difficulty_Click"/>
 
 				<Button Content="Exit"
                         Width="200"
                         Margin="5"
                         Click="Exit_Click"/>
+
 			</StackPanel>
 		</Grid>
-		  
-		<Grid>
-			<Canvas Name="Canv"
-				Background="LightSkyBlue"
-				Focusable="True"
-				KeyDown="KeyIsDown"
-				KeyUp="KeyIsUp">
+
+		
+		<Canvas x:Name="Canv"
+                Visibility="Hidden"
+                Background="LightSkyBlue"
+                Focusable="True"
+                KeyDown="KeyIsDown"
+                KeyUp="KeyIsUp">
+
+			<Image Width="200" Height="145" Source="/Image/clouds.png"
+                   Canvas.Left="50" Canvas.Top="100" Tag="cloud"/>
+
+			<Image Width="200" Height="145" Source="/Image/clouds2.png"
+                   Canvas.Left="350" Canvas.Top="130" Tag="cloud"/>
+
+			<Image Width="66" Height="390" Source="/Image/pipeBottom.png"
+                   Canvas.Left="400" Canvas.Top="300" Tag="pipe"/>
+
+			<Image Width="66" Height="390" Source="/Image/pipeTop.png"
+                   Canvas.Left="400" Canvas.Top="-250" Tag="pipe"/>
+
+			<Image Width="66" Height="390" Source="/Image/pipeBottom.png"
+                   Canvas.Left="700" Canvas.Top="250" Tag="pipe"/>
+
+			<Image Width="66" Height="390" Source="/Image/pipeTop.png"
+                   Canvas.Left="700" Canvas.Top="-300" Tag="pipe"/>
+
+			<Image Width="66" Height="390" Source="/Image/pipeBottom.png"
+                   Canvas.Left="1000" Canvas.Top="280" Tag="pipe"/>
+
+			<Image Width="66" Height="390" Source="/Image/pipeTop.png"
+                   Canvas.Left="1000" Canvas.Top="-260" Tag="pipe"/>
+
+			<Image x:Name="bird"
+                   Width="50"
+                   Height="36"
+                   Source="/Image/flappyBird.png"
+                   Canvas.Left="50"
+                   Canvas.Top="190"/>
+
+			<Label x:Name="scoreLabel"
+                   Content="Score: 0"
+                   FontSize="22"
+                   FontWeight="Bold"
+                   Canvas.Left="10"
+                   Canvas.Top="10"/>
+
+		</Canvas>
+
+		
+		<Canvas x:Name="RainLayer"
+                Visibility="Hidden"
+                IsHitTestVisible="False">
+
+			<Image Stretch="Fill"
+                   Canvas.Left="0"
+                   Canvas.Top="0"
+                   gif:ImageBehavior.AnimatedSource="/Image/rain.gif"
+                   gif:ImageBehavior.RepeatBehavior="Forever"
+                   Opacity="0.6"/>
+		</Canvas>
+
+		<Canvas x:Name="Layer"
+        Visibility="Hidden"
+        IsHitTestVisible="False">
+
+			<Image Stretch="Fill"
+           Canvas.Left="0"
+           Canvas.Top="0"
+           gif:ImageBehavior.AnimatedSource="/Image/rain.gif"
+           gif:ImageBehavior.RepeatBehavior="Forever"
+           Opacity="0.6"/>
+		</Canvas>
 
 
-				<Image Width="200" Height="145" Source="/Image/clouds.png" Canvas.Left="50" Canvas.Top="100" Tag="cloud"/>
-				<Image Width="200" Height="145" Source="/Image/clouds2.png" Canvas.Left="350" Canvas.Top="130" Tag="cloud"/>
+		<Grid x:Name="GameSettings" Visibility="Hidden">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
+				<TextBlock Text="Select Difficulty"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="0,0,0,20"/>
 
-				<Image Width="66" Height="390" Source="/Image/pipeBottom.png" Canvas.Left="400" Canvas.Top="300" Tag="pipe"/>
-				<Image Width="66" Height="390" Source="/Image/pipeTop.png" Canvas.Left="400" Canvas.Top="-250" Tag="pipe"/>
+				<Button Content="Easy" Width="200" Margin="5" Click="Easy_Click"/>
+				<Button Content="Medium" Width="200" Margin="5" Click="Medium_Click"/>
+				<Button Content="Hard" Width="200" Margin="5" Click="Hard_Click"/>
+				<Button Content="Back to Menu" Width="200" Margin="5" Click="BackToMenu_Click"/>
 
-				<Image Width="66" Height="390" Source="/Image/pipeBottom.png" Canvas.Left="700" Canvas.Top="250" Tag="pipe"/>
-				<Image Width="66" Height="390" Source="/Image/pipeTop.png" Canvas.Left="700" Canvas.Top="-300" Tag="pipe"/>
-
-				<Image Width="66" Height="390" Source="/Image/pipeBottom.png" Canvas.Left="1000" Canvas.Top="280" Tag="pipe"/>
-				<Image Width="66" Height="390" Source="/Image/pipeTop.png" Canvas.Left="1000" Canvas.Top="-260" Tag="pipe"/>
-
-
-				<Image x:Name="bird" Width="50" Height="36" Source="/Image/flappyBird.png" Canvas.Left="50" Canvas.Top="190"/>
-
-
-				<Label x:Name="scoreLabel" Content="Score: 0" FontSize="22" FontWeight="Bold" Canvas.Left="10" Canvas.Top="10"/>
-			</Canvas>
+			</StackPanel>
 		</Grid>
-	</Grid>
 
+	</Grid>
 </Window>

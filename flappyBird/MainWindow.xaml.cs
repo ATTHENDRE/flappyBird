@@ -12,8 +12,12 @@ namespace flappyBird
 		DispatcherTimer timer = new DispatcherTimer();
 
 		int gravity = 8;
+		int pipeSpeed = 5;
 		int score = 0;
 		bool gameOver = false;
+
+		enum Difficulty { Easy, Medium, Hard }
+		Difficulty currentDifficulty = Difficulty.Medium;
 
 		Random rnd = new Random();
 
@@ -24,7 +28,7 @@ namespace flappyBird
 			timer.Interval = TimeSpan.FromMilliseconds(20);
 			timer.Tick += GameLoop;
 
-			ShowMenu(); 
+			ShowMenu();
 		}
 
 		
@@ -32,8 +36,9 @@ namespace flappyBird
 		void ShowMenu()
 		{
 			MenuScene.Visibility = Visibility.Visible;
+			GameSettings.Visibility = Visibility.Hidden;
 			Canv.Visibility = Visibility.Hidden;
-
+			RainLayer.Visibility = Visibility.Hidden;
 
 			timer.Stop();
 		}
@@ -41,23 +46,29 @@ namespace flappyBird
 		void ShowGame()
 		{
 			MenuScene.Visibility = Visibility.Hidden;
+			GameSettings.Visibility = Visibility.Hidden;
 			Canv.Visibility = Visibility.Visible;
-			
+
+			RainLayer.Visibility =
+				currentDifficulty == Difficulty.Medium
+				? Visibility.Visible
+				: Visibility.Hidden;
 
 			Canv.Focus();
 			StartGame();
 		}
 
-		void ShowCredits()
+		void ShowDifficultyMenu()
 		{
 			MenuScene.Visibility = Visibility.Hidden;
+			GameSettings.Visibility = Visibility.Visible;
 			Canv.Visibility = Visibility.Hidden;
-			
+			RainLayer.Visibility = Visibility.Hidden;
 
 			timer.Stop();
 		}
 
-		
+		// ===== GAME LOOP =====
 
 		private void GameLoop(object sender, EventArgs e)
 		{
@@ -69,62 +80,52 @@ namespace flappyBird
 				Canvas.GetLeft(bird),
 				Canvas.GetTop(bird),
 				bird.Width,
-				bird.Height
-			);
+				bird.Height);
 
 			if (Canvas.GetTop(bird) < -10 || Canvas.GetTop(bird) > 440)
-			{
 				EndGame();
-			}
 
 			foreach (var obj in Canv.Children)
 			{
-				Image img = obj as Image;
-				if (img == null) continue;
-
-				// csövek
-				if ((string)img.Tag == "pipe")
+				if (obj is Image img)
 				{
-					Canvas.SetLeft(img, Canvas.GetLeft(img) - 5);
-
-					if (Canvas.GetLeft(img) < -80)
+					if ((string)img.Tag == "pipe")
 					{
-						Canvas.SetLeft(img, 800);
-						score++;
+						Canvas.SetLeft(img, Canvas.GetLeft(img) - pipeSpeed);
 
-						if (Canvas.GetTop(img) < 0)
-							Canvas.SetTop(img, -rnd.Next(200, 350));
-						else
-							Canvas.SetTop(img, rnd.Next(200, 350));
+						if (Canvas.GetLeft(img) < -80)
+						{
+							Canvas.SetLeft(img, 800);
+							score++;
+
+							if (Canvas.GetTop(img) < 0)
+								Canvas.SetTop(img, -rnd.Next(200, 350));
+							else
+								Canvas.SetTop(img, rnd.Next(200, 350));
+						}
+
+						Rect pipeHitBox = new Rect(
+							Canvas.GetLeft(img),
+							Canvas.GetTop(img),
+							img.Width,
+							img.Height);
+
+						if (birdHitBox.IntersectsWith(pipeHitBox))
+							EndGame();
 					}
 
-					Rect pipeHitBox = new Rect(
-						Canvas.GetLeft(img),
-						Canvas.GetTop(img),
-						img.Width,
-						img.Height
-					);
-
-					if (birdHitBox.IntersectsWith(pipeHitBox))
+					if ((string)img.Tag == "cloud")
 					{
-						EndGame();
-					}
-				}
+						Canvas.SetLeft(img, Canvas.GetLeft(img) - 1);
 
-				// felhők
-				if ((string)img.Tag == "cloud")
-				{
-					Canvas.SetLeft(img, Canvas.GetLeft(img) - 1);
-
-					if (Canvas.GetLeft(img) < -250)
-					{
-						Canvas.SetLeft(img, 550);
+						if (Canvas.GetLeft(img) < -250)
+							Canvas.SetLeft(img, 550);
 					}
 				}
 			}
 		}
 
-		
+		// ===== INPUT =====
 
 		private void KeyIsDown(object sender, KeyEventArgs e)
 		{
@@ -135,24 +136,22 @@ namespace flappyBird
 			}
 
 			if (e.Key == Key.Enter && gameOver)
-			{
-				ShowMenu(); 
-			}
+				ShowMenu();
 		}
 
 		private void KeyIsUp(object sender, KeyEventArgs e)
 		{
-			gravity = 8;
+			gravity = Math.Abs(gravity);
 			bird.RenderTransform = new RotateTransform(5, bird.Width / 2, bird.Height / 2);
 		}
 
 		
 
-		private void StartGame()
+		void StartGame()
 		{
 			score = 0;
 			gameOver = false;
-			gravity = 8;
+			gravity = Math.Abs(gravity);
 
 			Canvas.SetTop(bird, 190);
 
@@ -160,8 +159,7 @@ namespace flappyBird
 
 			foreach (var obj in Canv.Children)
 			{
-				Image img = obj as Image;
-				if (img != null && (string)img.Tag == "pipe")
+				if (obj is Image img && (string)img.Tag == "pipe")
 				{
 					Canvas.SetLeft(img, x);
 					x += 300;
@@ -172,11 +170,11 @@ namespace flappyBird
 			timer.Start();
 		}
 
-		private void EndGame()
+		void EndGame()
 		{
 			timer.Stop();
 			gameOver = true;
-			scoreLabel.Content = "Score: " + score + "  Játék vége! (ENTER)";
+			scoreLabel.Content = $"Score: {score}  Játék vége! (ENTER)";
 		}
 
 		
@@ -186,9 +184,36 @@ namespace flappyBird
 			ShowGame();
 		}
 
-		private void Credits_Click(object sender, RoutedEventArgs e)
+		private void Difficulty_Click(object sender, RoutedEventArgs e)
 		{
-			ShowCredits();
+			ShowDifficultyMenu();
+		}
+
+		private void Easy_Click(object sender, RoutedEventArgs e)
+		{
+			currentDifficulty = Difficulty.Easy;
+			gravity = 6;
+			pipeSpeed = 4;
+			DifficultyButton.Content = "Difficulty: Easy";
+			ShowMenu();
+		}
+
+		private void Medium_Click(object sender, RoutedEventArgs e)
+		{
+			currentDifficulty = Difficulty.Medium;
+			gravity = 10;
+			pipeSpeed = 5;
+			DifficultyButton.Content = "Difficulty: Medium";
+			ShowMenu();
+		}
+
+		private void Hard_Click(object sender, RoutedEventArgs e)
+		{
+			currentDifficulty = Difficulty.Hard;
+			gravity = 12;
+			pipeSpeed = 7;
+			DifficultyButton.Content = "Difficulty: Hard";
+			ShowMenu();
 		}
 
 		private void BackToMenu_Click(object sender, RoutedEventArgs e)
