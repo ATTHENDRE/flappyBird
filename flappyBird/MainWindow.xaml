@@ -9,7 +9,7 @@
 
 	<Grid>
 
-		
+
 		<Grid x:Name="MenuScene" Visibility="Visible">
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
@@ -38,7 +38,7 @@
 			</StackPanel>
 		</Grid>
 
-		
+
 		<Canvas x:Name="Canv"
                 Visibility="Hidden"
                 Background="LightSkyBlue"
@@ -46,30 +46,55 @@
                 KeyDown="KeyIsDown"
                 KeyUp="KeyIsUp">
 
-			<Image Width="200" Height="145" Source="/Image/clouds.png"
-                   Canvas.Left="50" Canvas.Top="100" Tag="cloud"/>
+			<Image Width="200" Height="145"
+                   Source="/Image/clouds.png"
+                   Canvas.Left="50"
+                   Canvas.Top="100"
+                   Tag="cloud"/>
 
-			<Image Width="200" Height="145" Source="/Image/clouds2.png"
-                   Canvas.Left="350" Canvas.Top="130" Tag="cloud"/>
+			<Image Width="200" Height="145"
+                   Source="/Image/clouds2.png"
+                   Canvas.Left="350"
+                   Canvas.Top="130"
+                   Tag="cloud"/>
 
-			<Image Width="66" Height="390" Source="/Image/pipeBottom.png"
-                   Canvas.Left="400" Canvas.Top="300" Tag="pipe"/>
+			<Image Width="66" Height="390"
+                   Source="/Image/pipeBottom.png"
+                   Canvas.Left="400"
+                   Canvas.Top="300"
+                   Tag="pipe"/>
 
-			<Image Width="66" Height="390" Source="/Image/pipeTop.png"
-                   Canvas.Left="400" Canvas.Top="-250" Tag="pipe"/>
+			<Image Width="66" Height="390"
+                   Source="/Image/pipeTop.png"
+                   Canvas.Left="400"
+                   Canvas.Top="-250"
+                   Tag="pipe"/>
 
-			<Image Width="66" Height="390" Source="/Image/pipeBottom.png"
-                   Canvas.Left="700" Canvas.Top="250" Tag="pipe"/>
+			<Image Width="66" Height="390"
+                   Source="/Image/pipeBottom.png"
+                   Canvas.Left="700"
+                   Canvas.Top="250"
+                   Tag="pipe"/>
 
-			<Image Width="66" Height="390" Source="/Image/pipeTop.png"
-                   Canvas.Left="700" Canvas.Top="-300" Tag="pipe"/>
+			<Image Width="66" Height="390"
+                   Source="/Image/pipeTop.png"
+                   Canvas.Left="700"
+                   Canvas.Top="-300"
+                   Tag="pipe"/>
 
-			<Image Width="66" Height="390" Source="/Image/pipeBottom.png"
-                   Canvas.Left="1000" Canvas.Top="280" Tag="pipe"/>
+			<Image Width="66" Height="390"
+                   Source="/Image/pipeBottom.png"
+                   Canvas.Left="1000"
+                   Canvas.Top="280"
+                   Tag="pipe"/>
 
-			<Image Width="66" Height="390" Source="/Image/pipeTop.png"
-                   Canvas.Left="1000" Canvas.Top="-260" Tag="pipe"/>
+			<Image Width="66" Height="390"
+                   Source="/Image/pipeTop.png"
+                   Canvas.Left="1000"
+                   Canvas.Top="-260"
+                   Tag="pipe"/>
 
+			
 			<Image x:Name="bird"
                    Width="50"
                    Height="36"
@@ -77,6 +102,7 @@
                    Canvas.Left="50"
                    Canvas.Top="190"/>
 
+			
 			<Label x:Name="scoreLabel"
                    Content="Score: 0"
                    FontSize="22"
@@ -86,30 +112,28 @@
 
 		</Canvas>
 
-		
-		<Canvas x:Name="RainLayer"
-                Visibility="Hidden"
-                IsHitTestVisible="False">
 
-			<Image Stretch="Fill"
-                   Canvas.Left="0"
-                   Canvas.Top="0"
-                   gif:ImageBehavior.AnimatedSource="/Image/rain.gif"
+		<Grid x:Name="RainLayer"
+              Visibility="Hidden"
+              IsHitTestVisible="False">
+
+			        <Image Stretch="Fill"
+                   gif:ImageBehavior.AnimatedSource="pack://application:,,,/Image/rain.gif"
                    gif:ImageBehavior.RepeatBehavior="Forever"
                    Opacity="0.6"/>
-		</Canvas>
+		</Grid>
 
-		<Canvas x:Name="Layer"
-        Visibility="Hidden"
-        IsHitTestVisible="False">
 
-			<Image Stretch="Fill"
-           Canvas.Left="0"
-           Canvas.Top="0"
-           gif:ImageBehavior.AnimatedSource="/Image/rain.gif"
-           gif:ImageBehavior.RepeatBehavior="Forever"
-           Opacity="0.6"/>
-		</Canvas>
+		<Grid x:Name="CloudLayer"
+              Visibility="Hidden"
+              IsHitTestVisible="False">
+
+			        <Image Stretch="Fill"
+                   gif:ImageBehavior.AnimatedSource="pack://application:,,,/Image/cloud.gif"
+                   gif:ImageBehavior.RepeatBehavior="Forever"
+                   Opacity="0.6"/>
+		</Grid>
+
 
 
 		<Grid x:Name="GameSettings" Visibility="Hidden">
@@ -130,3 +154,4 @@
 
 	</Grid>
 </Window>
+

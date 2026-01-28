@@ -39,6 +39,7 @@ namespace flappyBird
 			GameSettings.Visibility = Visibility.Hidden;
 			Canv.Visibility = Visibility.Hidden;
 			RainLayer.Visibility = Visibility.Hidden;
+			CloudLayer.Visibility = Visibility.Hidden;
 
 			timer.Stop();
 		}
@@ -54,6 +55,11 @@ namespace flappyBird
 				? Visibility.Visible
 				: Visibility.Hidden;
 
+			CloudLayer.Visibility =
+				currentDifficulty == Difficulty.Hard
+				? Visibility.Visible
+				: Visibility.Hidden;
+
 			Canv.Focus();
 			StartGame();
 		}
@@ -64,6 +70,7 @@ namespace flappyBird
 			GameSettings.Visibility = Visibility.Visible;
 			Canv.Visibility = Visibility.Hidden;
 			RainLayer.Visibility = Visibility.Hidden;
+			CloudLayer.Visibility = Visibility.Hidden;
 
 			timer.Stop();
 		}

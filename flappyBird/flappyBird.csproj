@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Image\cloud.gif" />
     <None Remove="Image\clouds.png" />
     <None Remove="Image\clouds2.png" />
     <None Remove="Image\flappyBird.png" />
@@ -22,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Image\cloud.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Image\clouds.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
