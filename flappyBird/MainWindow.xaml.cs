@@ -15,8 +15,9 @@ namespace flappyBird
 		int pipeSpeed = 5;
 		int score = 0;
 		bool gameOver = false;
+		bool invertedGravity = false;
 
-		enum Difficulty { Easy, Medium, Hard }
+		enum Difficulty { Easy, Medium, Hard, Extreme }
 		Difficulty currentDifficulty = Difficulty.Medium;
 
 		Random rnd = new Random();
@@ -24,14 +25,10 @@ namespace flappyBird
 		public MainWindow()
 		{
 			InitializeComponent();
-
 			timer.Interval = TimeSpan.FromMilliseconds(20);
 			timer.Tick += GameLoop;
-
 			ShowMenu();
 		}
-
-		
 
 		void ShowMenu()
 		{
@@ -40,7 +37,6 @@ namespace flappyBird
 			Canv.Visibility = Visibility.Hidden;
 			RainLayer.Visibility = Visibility.Hidden;
 			CloudLayer.Visibility = Visibility.Hidden;
-
 			timer.Stop();
 		}
 
@@ -50,15 +46,8 @@ namespace flappyBird
 			GameSettings.Visibility = Visibility.Hidden;
 			Canv.Visibility = Visibility.Visible;
 
-			RainLayer.Visibility =
-				currentDifficulty == Difficulty.Medium
-				? Visibility.Visible
-				: Visibility.Hidden;
-
-			CloudLayer.Visibility =
-				currentDifficulty == Difficulty.Hard
-				? Visibility.Visible
-				: Visibility.Hidden;
+			RainLayer.Visibility = currentDifficulty == Difficulty.Medium ? Visibility.Visible : Visibility.Hidden;
+			CloudLayer.Visibility = currentDifficulty == Difficulty.Hard ? Visibility.Visible : Visibility.Hidden;
 
 			Canv.Focus();
 			StartGame();
@@ -71,16 +60,12 @@ namespace flappyBird
 			Canv.Visibility = Visibility.Hidden;
 			RainLayer.Visibility = Visibility.Hidden;
 			CloudLayer.Visibility = Visibility.Hidden;
-
 			timer.Stop();
 		}
-
-		
 
 		private void GameLoop(object sender, EventArgs e)
 		{
 			scoreLabel.Content = "Score: " + score;
-
 			Canvas.SetTop(bird, Canvas.GetTop(bird) + gravity);
 
 			Rect birdHitBox = new Rect(
@@ -89,7 +74,10 @@ namespace flappyBird
 				bird.Width,
 				bird.Height);
 
-			if (Canvas.GetTop(bird) < -10 || Canvas.GetTop(bird) > 440)
+			if (!invertedGravity && Canvas.GetTop(bird) > 440)
+				EndGame();
+
+			if (invertedGravity && Canvas.GetTop(bird) < -10)
 				EndGame();
 
 			foreach (var obj in Canv.Children)
@@ -124,7 +112,6 @@ namespace flappyBird
 					if ((string)img.Tag == "cloud")
 					{
 						Canvas.SetLeft(img, Canvas.GetLeft(img) - 1);
-
 						if (Canvas.GetLeft(img) < -250)
 							Canvas.SetLeft(img, 550);
 					}
@@ -132,14 +119,15 @@ namespace flappyBird
 			}
 		}
 
-		
-
 		private void KeyIsDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Space && !gameOver)
 			{
-				gravity = -8;
-				bird.RenderTransform = new RotateTransform(-20, bird.Width / 2, bird.Height / 2);
+				gravity = invertedGravity ? 8 : -8;
+				bird.RenderTransform = new RotateTransform(
+					invertedGravity ? 20 : -20,
+					bird.Width / 2,
+					bird.Height / 2);
 			}
 
 			if (e.Key == Key.Enter && gameOver)
@@ -148,18 +136,18 @@ namespace flappyBird
 
 		private void KeyIsUp(object sender, KeyEventArgs e)
 		{
-			gravity = Math.Abs(gravity);
-			bird.RenderTransform = new RotateTransform(5, bird.Width / 2, bird.Height / 2);
-		}
+			gravity = invertedGravity ? -8 : Math.Abs(gravity);
 
-		
+			bird.RenderTransform = new RotateTransform(
+				invertedGravity ? -10 : 5,
+				bird.Width / 2,
+				bird.Height / 2);
+		}
 
 		void StartGame()
 		{
 			score = 0;
 			gameOver = false;
-			gravity = Math.Abs(gravity);
-
 			Canvas.SetTop(bird, 190);
 
 			int x = 400;
@@ -184,8 +172,6 @@ namespace flappyBird
 			scoreLabel.Content = $"Score: {score}  Játék vége! (ENTER)";
 		}
 
-		
-
 		private void StartGame_Click(object sender, RoutedEventArgs e)
 		{
 			ShowGame();
@@ -199,6 +185,7 @@ namespace flappyBird
 		private void Easy_Click(object sender, RoutedEventArgs e)
 		{
 			currentDifficulty = Difficulty.Easy;
+			invertedGravity = false;
 			gravity = 6;
 			pipeSpeed = 4;
 			DifficultyButton.Content = "Difficulty: Easy";
@@ -208,6 +195,7 @@ namespace flappyBird
 		private void Medium_Click(object sender, RoutedEventArgs e)
 		{
 			currentDifficulty = Difficulty.Medium;
+			invertedGravity = false;
 			gravity = 10;
 			pipeSpeed = 5;
 			DifficultyButton.Content = "Difficulty: Medium";
@@ -217,9 +205,20 @@ namespace flappyBird
 		private void Hard_Click(object sender, RoutedEventArgs e)
 		{
 			currentDifficulty = Difficulty.Hard;
+			invertedGravity = false;
 			gravity = 12;
 			pipeSpeed = 7;
 			DifficultyButton.Content = "Difficulty: Hard";
+			ShowMenu();
+		}
+
+		private void Extreme_Click(object sender, RoutedEventArgs e)
+		{
+			currentDifficulty = Difficulty.Extreme;
+			invertedGravity = true;
+			gravity = -8;
+			pipeSpeed = 6;
+			DifficultyButton.Content = "Difficulty: Extreme";
 			ShowMenu();
 		}
 
@@ -234,3 +233,4 @@ namespace flappyBird
 		}
 	}
 }
+

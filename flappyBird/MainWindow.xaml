@@ -179,6 +179,7 @@
 				<Button Content="Easy" Width="200" Margin="5" Click="Easy_Click"/>
 				<Button Content="Medium" Width="200" Margin="5" Click="Medium_Click"/>
 				<Button Content="Hard" Width="200" Margin="5" Click="Hard_Click"/>
+				<Button Content="Extreme" Width="200" Margin="5" Click="Extreme_Click"/>
 				<Button Content="Back to Menu" Width="200" Margin="5" Click="BackToMenu_Click"/>
 
 			</StackPanel>
