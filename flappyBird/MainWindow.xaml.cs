@@ -49,6 +49,9 @@ namespace flappyBird
 			RainLayer.Visibility = currentDifficulty == Difficulty.Medium ? Visibility.Visible : Visibility.Hidden;
 			CloudLayer.Visibility = currentDifficulty == Difficulty.Hard ? Visibility.Visible : Visibility.Hidden;
 
+			CloudLayer.Visibility = currentDifficulty == Difficulty.Extreme ? Visibility.Visible : Visibility.Hidden;
+
+
 			Canv.Focus();
 			StartGame();
 		}
@@ -217,7 +220,7 @@ namespace flappyBird
 			currentDifficulty = Difficulty.Extreme;
 			invertedGravity = true;
 			gravity = -8;
-			pipeSpeed = 6;
+			pipeSpeed = 7;
 			DifficultyButton.Content = "Difficulty: Extreme";
 			ShowMenu();
 		}
