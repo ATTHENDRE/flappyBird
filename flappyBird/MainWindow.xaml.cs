@@ -75,7 +75,7 @@ namespace flappyBird
 			timer.Stop();
 		}
 
-		// ===== GAME LOOP =====
+		
 
 		private void GameLoop(object sender, EventArgs e)
 		{
@@ -132,7 +132,7 @@ namespace flappyBird
 			}
 		}
 
-		// ===== INPUT =====
+		
 
 		private void KeyIsDown(object sender, KeyEventArgs e)
 		{
